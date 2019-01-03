@@ -1,0 +1,20 @@
+{
+  "name": "MCScriptStudioCode-Plugin-Quick-Start",
+  "url": "https://github.com/miniminelp/MCScriptStudioCode-plugin-quick-start",
+  "author": "Minimine",
+  "author-url": "https://github.com/miniminelp/",
+  "version": "0.0.1",
+  "main": "QuickStart.js",
+  "pluginDependencies": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MinimineLP/MCScriptStudioCode-plugin-quick-start.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MinimineLP/MCScriptStudioCode-plugin-quick-start/issues"
+  },
+  "homepage": "https://github.com/MinimineLP/MCScriptStudioCode-plugin-quick-start#readme",
+  "dependencies": {},
+  "devDependencies": {}
+}
