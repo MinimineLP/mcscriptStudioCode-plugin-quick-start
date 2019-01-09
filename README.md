@@ -12,4 +12,4 @@ MCScriptStudioCode is a editor wit Synthax-Highlighting like Notepad++ or Atom. 
 ## License
 Plugin-Quick-Start for MCScriptStudioCode is licensed under the [MIT License](https://github.com/MinimineLP/mcscriptStudioCode/blob/master/plugins/settings/LICENSE).
 <br/>
-[MCScriptStudioCode's License](https://github.com/MinimineLP/mcscriptStudioCode/blob/master/LICENSE) | [Quick-Start's License](LICENSE)
+[MCScriptStudioCode's License](https://github.com/MinimineLP/mcscriptStudioCode/blob/master/LICENSE) | [My's License](LICENSE)
