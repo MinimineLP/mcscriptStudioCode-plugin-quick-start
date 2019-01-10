@@ -14,10 +14,7 @@ const gulp = require(`gulp`),
   path = require('path'),
   fs = require('fs-extra'),
   zipFolder = require('zip-folder'),
-  readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
+  readline = require('readline');
 
 
 let data = fs.readFileSync(`${__dirname}/package.json`, 'utf8');
@@ -109,7 +106,21 @@ function cleanTypescript() {
         .on('finish', resolve);
     }),
     new Promise((resolve, reject) => {
+      gulp.src(['*.js.map', '!gulpfile.js'])
+        .pipe(clean())
+        .on('error', reject)
+        .on('end', resolve)
+        .on('finish', resolve);
+    }),
+    new Promise((resolve, reject) => {
       gulp.src('scripts/*.js')
+        .pipe(clean())
+        .on('error', reject)
+        .on('end', resolve)
+        .on('finish', resolve);
+    }),
+    new Promise((resolve, reject) => {
+      gulp.src('scripts/*.js.map')
         .pipe(clean())
         .on('error', reject)
         .on('end', resolve)
@@ -123,13 +134,22 @@ function cleanTypescript() {
  */
 function cleanTypes() {
   if(!fs.existsSync(`./types/`))fs.mkdirsSync(path.resolve(`./types/`))
-  return new Promise((resolve, reject) => {
-    gulp.src('types/*.js')
-      .pipe(clean())
-      .on('error', reject)
-      .on('end', resolve)
-      .on('finish', resolve);
-  });
+  return Promise.all([
+    new Promise((resolve, reject) => {
+      gulp.src('types/*.js')
+        .pipe(clean())
+        .on('error', reject)
+        .on('end', resolve)
+        .on('finish', resolve);
+    }),
+    new Promise((resolve, reject) => {
+      gulp.src('types/*.js.map')
+        .pipe(clean())
+        .on('error', reject)
+        .on('end', resolve)
+        .on('finish', resolve);
+    }),
+  ]);
 }
 
 /**
@@ -362,7 +382,8 @@ function start() {
 
 function newSass() {
   return new Promise((rs, rj) => {
-    readline.question('Please enter name for the new sass file: ', (d) => {
+    let rl = readline.createInterface({input: process.stdin,output: process.stdout});
+    rl.question('Please enter name for the new sass file: ', (d) => {
       let name = d.toString().trim().toLowerCase();
       if(name.endsWith(".sass"))name = name.slice(0,-5);
       if(!fs.existsSync(`./style/sass/`))fs.mkdirsSync(path.resolve(`./style/sass/`))
@@ -377,14 +398,15 @@ function newSass() {
         console.log(Formats.FgRed + `\nFile "${file}" already exists` + Formats.Reset);
         rs();
       }
-      readline.close();
+      rl.close();
     });
   });
 }
 
 function newScss() {
   return new Promise((rs, rj) => {
-    readline.question('Please enter name for the new scss file: ', (d) => {
+    let rl = readline.createInterface({input: process.stdin,output: process.stdout});
+    rl.question('Please enter name for the new scss file: ', (d) => {
       let name = d.toString().trim().toLowerCase();
       if(name.endsWith(".scss"))name = name.slice(0,-5);
       if(!fs.existsSync(`./style/scss/`))fs.mkdirsSync(path.resolve(`./style/scss/`))
@@ -399,14 +421,15 @@ function newScss() {
         console.log(Formats.FgRed + `File "${file}" already exists` + Formats.Reset);
         rs();
       }
-      readline.close();
+      rl.close();
     });
   });
 }
 
 function newCss() {
   return new Promise((rs, rj) => {
-    readline.question('Please enter name for the new css file: ', (d) => {
+    let rl = readline.createInterface({input: process.stdin,output: process.stdout});
+    rl.question('Please enter name for the new css file: ', (d) => {
       let name = d.toString().trim().toLowerCase();
       if(name.endsWith(".css"))name = name.slice(0,-4);
       if(!fs.existsSync(`./style/css/`))fs.mkdirsSync(path.resolve(`./style/css/`))
@@ -421,14 +444,15 @@ function newCss() {
         console.log(Formats.FgRed + `File "${file}" already exists` + Formats.Reset);
         rs();
       }
-      readline.close();
+      rl.close();
     });
   });
 }
 
 function newScript() {
   return new Promise((rs, rj) => {
-    readline.question('Please enter name for the new typescript file: ', (d) => {
+    let rl = readline.createInterface({input: process.stdin,output: process.stdout});
+    rl.question('Please enter name for the new typescript file: ', (d) => {
       let name = d.toString().trim().toLowerCase();
       if(name.endsWith(".ts"))name = name.slice(0,-3);
       if(!fs.existsSync(`./scripts/`))fs.mkdirsSync(path.resolve(`./scripts/`))
@@ -442,14 +466,15 @@ function newScript() {
        console.log(Formats.FgRed + `File "${file}" already exists` + Formats.Reset);
        rs();
       }
-      readline.close();
+      rl.close();
     });
   });
 }
 
 function newTypes() {
   return new Promise((rs, rj) => {
-    readline.question('Please enter name for the new (Type\'s) typescript file: ', (d) => {
+    let rl = readline.createInterface({input: process.stdin,output: process.stdout});
+    rl.question('Please enter name for the new (Type\'s) typescript file: ', (d) => {
       let name = d.toString().trim().toLowerCase();
       if(name.endsWith(".ts"))name = name.slice(0,-3);
       if(!fs.existsSync(`./types/`))fs.mkdirsSync(path.resolve(`./types/`))
@@ -463,14 +488,15 @@ function newTypes() {
        console.log(Formats.FgRed + `File "${file}" already exists` + Formats.Reset);
        rs();
       }
-      readline.close();
+      rl.close();
     });
   });
 }
 
 function newHTML() {
   return new Promise((rs, rj) => {
-    readline.question('Please enter name for the new html file: ', (d) => {
+    let rl = readline.createInterface({input: process.stdin,output: process.stdout});
+    rl.question('Please enter name for the new html file: ', (d) => {
       let name = d.toString().trim().toLowerCase();
       if(name.endsWith(".html"))name = name.slice(0,-5);
       if(!fs.existsSync(`./html/`))fs.mkdirsSync(path.resolve(`./html/`))
@@ -486,7 +512,7 @@ function newHTML() {
        console.log(Formats.FgRed + `File "${file}" already exists` + Formats.Reset);
        rs();
       }
-      readline.close();
+      rl.close();
     });
   });
 }
